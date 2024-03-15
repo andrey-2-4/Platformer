@@ -5,8 +5,11 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D playerBody;
+    private BoxCollider2D boxCollider;
     private SpriteRenderer spriteRenderer;
     private Animator animator;
+
+    [SerializeField] private LayerMask jumpadbleGround;
 
     private float dirX = 0;
     private float moveSpeed = 7f;
@@ -24,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         playerBody = GetComponent<Rigidbody2D>();
+        boxCollider = GetComponent<BoxCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
     }
@@ -34,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
         dirX = Input.GetAxisRaw("Horizontal");
         playerBody.velocity = new Vector2(dirX * moveSpeed, playerBody.velocity.y);
 
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && isGrounded())
         {
             playerBody.velocity = new Vector2(playerBody.velocity.x, jumpSpeed);
         }
@@ -64,12 +68,17 @@ public class PlayerMovement : MonoBehaviour
         if (playerBody.velocity.y > .01f)
         {
             state = MovementState.jumping;
-        } 
+        }
         else if (playerBody.velocity.y < -.01f)
         {
             state = MovementState.falling;
         }
 
         animator.SetInteger("state", (int)state);
+    }
+
+    private bool isGrounded()
+    {
+        return Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0f, Vector2.down, .1f, jumpadbleGround);
     }
 }
