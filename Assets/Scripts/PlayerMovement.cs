@@ -23,6 +23,10 @@ public class PlayerMovement : MonoBehaviour
         falling
     }
 
+    [SerializeField] AudioClip jumpSound;
+    [SerializeField] AudioClip[] stepSounds;
+    [SerializeField] AudioSource stepsAudioSource;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -38,9 +42,10 @@ public class PlayerMovement : MonoBehaviour
         dirX = Input.GetAxisRaw("Horizontal");
         playerBody.velocity = new Vector2(dirX * moveSpeed, playerBody.velocity.y);
 
-        if (Input.GetButtonDown("Jump") && isGrounded())
+        if (Input.GetButtonDown("Jump") && IsGrounded())
         {
             playerBody.velocity = new Vector2(playerBody.velocity.x, jumpSpeed);
+            stepsAudioSource.PlayOneShot(jumpSound);
         }
 
         UpdateAnimationState();
@@ -77,8 +82,19 @@ public class PlayerMovement : MonoBehaviour
         animator.SetInteger("state", (int)state);
     }
 
-    private bool isGrounded()
+    private bool IsGrounded()
     {
         return Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0f, Vector2.down, .1f, jumpadbleGround);
+    }
+
+    private void Step()
+    {
+        AudioClip clip = GetRandomStepSound();
+        stepsAudioSource.PlayOneShot(clip);
+    }
+
+    private AudioClip GetRandomStepSound()
+    {
+        return stepSounds[UnityEngine.Random.Range(0, stepSounds.Length)];
     }
 }
