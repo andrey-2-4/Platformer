@@ -12,8 +12,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask jumpadbleGround;
 
     private float dirX = 0;
-    private float moveSpeed = 7f;
-    private float jumpSpeed = 14f;
+    [SerializeField] private float moveSpeed = 7f;
+    [SerializeField] private float jumpSpeed = 14f;
 
     private enum MovementState
     {
