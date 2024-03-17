@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class PlayerLife : MonoBehaviour
 {
     [SerializeField] private AudioClip deathSound;
+    [SerializeField] private AudioClip hurtSound;
     [SerializeField] private AudioSource audioSource;
 
     private int health = 3;
@@ -56,11 +57,15 @@ public class PlayerLife : MonoBehaviour
 
     private IEnumerator GetHurt()
     {
+        audioSource.PlayOneShot(hurtSound);
         // 7 - Player layer
         // 8 - Skeleton layer
         Physics2D.IgnoreLayerCollision(7, 8, true);
+        // 1 - layer of Player_GetHurt in Animator
+        GetComponent<Animator>().SetLayerWeight(1, 1);
         yield return new WaitForSeconds(3);
         Physics2D.IgnoreLayerCollision(7, 8, false);
+        GetComponent<Animator>().SetLayerWeight(1, 0);
     }
 
     private void GetAttacked()
@@ -83,6 +88,7 @@ public class PlayerLife : MonoBehaviour
         audioSource.PlayOneShot(deathSound);
     }
 
+    // Executes in the end of the death animation (which is triggered by "death")
     private void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
