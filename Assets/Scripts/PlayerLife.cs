@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class PlayerLife : MonoBehaviour
 {
+    [SerializeField] AudioClip deathSound;
+    [SerializeField] AudioSource audioSource;
+
     private Rigidbody2D playerBody;
     private Animator animator;
     // Start is called before the first frame update
@@ -26,6 +29,7 @@ public class PlayerLife : MonoBehaviour
     {
         playerBody.bodyType = RigidbodyType2D.Static;
         animator.SetTrigger("death");
+        audioSource.PlayOneShot(deathSound);
     }
 
     private void RestartLevel()

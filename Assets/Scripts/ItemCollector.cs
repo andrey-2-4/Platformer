@@ -8,6 +8,9 @@ public class ItemCollector : MonoBehaviour
     private int apples = 0;
     [SerializeField] private TextMeshProUGUI applesText;
 
+    [SerializeField] AudioClip colletItemSound;
+    [SerializeField] AudioSource audioSource;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Apple"))
@@ -15,6 +18,7 @@ public class ItemCollector : MonoBehaviour
             Destroy(collision.gameObject);
             ++apples;
             applesText.text = "apples: " + apples;
+            audioSource.PlayOneShot(colletItemSound);
         }
     }
 }
