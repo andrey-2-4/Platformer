@@ -6,6 +6,13 @@ using UnityEngine.UI;
 
 public class PlayerLife : MonoBehaviour
 {
+    [SerializeField] private Image blackScreen;
+
+    [SerializeField] private Image eyes;
+    [SerializeField] private Sprite eyesClosed;
+    [SerializeField] private Sprite eyesOpened;
+
+    [SerializeField] private AudioClip abilitySound;
     [SerializeField] private AudioClip deathSound;
     [SerializeField] private AudioClip hurtSound;
     [SerializeField] private AudioSource audioSource;
@@ -18,6 +25,9 @@ public class PlayerLife : MonoBehaviour
     private Rigidbody2D playerBody;
     private Animator animator;
 
+    private float lastUse = 0f;
+    [SerializeField] private float cooldown = 10f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,11 +38,31 @@ public class PlayerLife : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Time.time - lastUse > cooldown)
         {
-            Debug.Log("fire;");
-            // stepsAudioSource.PlayOneShot(jumpSound);
+            eyes.sprite = eyesOpened;
+            if (Input.GetButtonDown("Fire1"))
+            {
+                lastUse = Time.time;
+                StartCoroutine(GetBlind());
+            }
         }
+        else
+        {
+            eyes.sprite = eyesClosed;
+        }
+    }
+
+    private IEnumerator GetBlind()
+    {
+        audioSource.PlayOneShot(abilitySound);
+        // 7 - Player layer
+        // 8 - Skeleton layer
+        Physics2D.IgnoreLayerCollision(7, 8, true);
+        blackScreen.color = new Color(0, 0, 0, 255);
+        yield return new WaitForSeconds(3);
+        Physics2D.IgnoreLayerCollision(7, 8, false);
+        blackScreen.color = new Color(0, 0, 0, 0);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
