@@ -22,10 +22,10 @@ public class Skeleton : MonoBehaviour
     {
         if (Vector2.Distance(waypoints[currentWaypoinIndex].transform.position, transform.position) < .1f)
         {
+            spriteRenderer.flipX = !spriteRenderer.flipX;
             currentWaypoinIndex++;
             if (currentWaypoinIndex >= waypoints.Length)
             {
-                spriteRenderer.flipX = !spriteRenderer.flipX;
                 currentWaypoinIndex = 0;
             }
         }
