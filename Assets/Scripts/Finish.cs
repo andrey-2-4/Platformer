@@ -12,7 +12,8 @@ public class Finish : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.name == "Player" && !levelCompleted)
+        GameObject[] appleObjects = GameObject.FindGameObjectsWithTag("Apple");
+        if (collision.gameObject.name == "Player" && !levelCompleted && appleObjects.Length == 0)
         {
             audioSource.Play();
             levelCompleted = true;

@@ -25,6 +25,16 @@ public class PlayerLife : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
+    // Update is called once per frame
+    private void Update()
+    {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Debug.Log("fire;");
+            // stepsAudioSource.PlayOneShot(jumpSound);
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Trap"))
