@@ -23,9 +23,9 @@ public class PlayerMovement : MonoBehaviour
         falling
     }
 
-    [SerializeField] AudioClip jumpSound;
-    [SerializeField] AudioClip[] stepSounds;
-    [SerializeField] AudioSource stepsAudioSource;
+    [SerializeField] private AudioClip jumpSound;
+    [SerializeField] private AudioClip[] stepSounds;
+    [SerializeField] private AudioSource stepsAudioSource;
 
     // Start is called before the first frame update
     private void Start()

@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class PlayerLife : MonoBehaviour
 {
-    [SerializeField] AudioClip deathSound;
-    [SerializeField] AudioSource audioSource;
+    [SerializeField] private AudioClip deathSound;
+    [SerializeField] private AudioSource audioSource;
 
     private Rigidbody2D playerBody;
     private Animator animator;

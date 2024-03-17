@@ -8,8 +8,8 @@ public class ItemCollector : MonoBehaviour
     private int apples = 0;
     [SerializeField] private TextMeshProUGUI applesText;
 
-    [SerializeField] AudioClip colletItemSound;
-    [SerializeField] AudioSource audioSource;
+    [SerializeField] private AudioClip colletItemSound;
+    [SerializeField] private AudioSource audioSource;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
