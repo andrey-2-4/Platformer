@@ -1478,8 +1478,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 41426138690097371, guid: fbbf5c62f32ad4e4b885e36c73ef8009, type: 3}
       propertyPath: dialogue.Array.data[1]
-      value: You can use your ability to walk safely, but you will lose your vision
-        for some time!
+      value: You can close your eyes to walk safely, but but there are obvious disadvantages
+        to this...
       objectReference: {fileID: 0}
     - target: {fileID: 1007714815140455484, guid: fbbf5c62f32ad4e4b885e36c73ef8009, type: 3}
       propertyPath: m_LocalPosition.x
