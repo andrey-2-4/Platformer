@@ -42,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
         dirX = Input.GetAxisRaw("Horizontal");
         playerBody.velocity = new Vector2(dirX * moveSpeed, playerBody.velocity.y);
 
-        if (Input.GetButtonDown("Jump") && IsGrounded())
+        if (Input.GetKeyDown(KeyCode.W) && IsGrounded())
         {
             playerBody.velocity = new Vector2(playerBody.velocity.x, jumpSpeed);
             stepsAudioSource.PlayOneShot(jumpSound);

@@ -47,7 +47,7 @@ public class PlayerLife : MonoBehaviour
         if (Time.time - lastUse > cooldown)
         {
             eyes.sprite = eyesOpened;
-            if (Input.GetButtonDown("Fire1"))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 lastUse = Time.time;
                 StartCoroutine(GetBlind());
