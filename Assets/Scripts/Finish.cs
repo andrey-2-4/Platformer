@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class Finish : MonoBehaviour
 {
+    [SerializeField] GameObject escapePanel;
+
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private float delayBeforeLoading = 0.35f;
 
@@ -25,6 +27,13 @@ public class Finish : MonoBehaviour
     {
         var level = SceneManager.GetActiveScene().buildIndex + 1;
         PlayerPrefs.SetInt("level", level);
-        SceneManager.LoadScene(level);
+        if (level == SceneManager.sceneCountInBuildSettings)
+        {
+            escapePanel.SetActive(true);
+        }
+        else
+        {
+            SceneManager.LoadScene(level);
+        }
     }
 }

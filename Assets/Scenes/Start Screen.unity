@@ -679,7 +679,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac84043bfd216614489eadfc51733371, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelsTotal: 2
+  levelsTotal: 3
   panel: {fileID: 1902324575}
 --- !u!224 &762283978 stripped
 RectTransform:
