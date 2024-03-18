@@ -734,7 +734,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -56}
+  m_AnchoredPosition: {x: 0, y: -164.08}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &767240957
@@ -2023,10 +2023,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1542673303}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 60}
-  m_SizeDelta: {x: 600, y: 50}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 964, y: -339}
+  m_SizeDelta: {x: 1810.4, y: 572.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1848672053
 MonoBehaviour:
@@ -2048,7 +2048,38 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Unbeliavaly goodd instruction
+  m_text: 'SPACE - close your "eyes" - monsters can''t hurt you, but you can''t see
+    a thing (so be careful...)
+
+
+    monsters decrease your hp by 1 (full hp = 3)
+
+    (your
+    hp is in the top right corner)
+
+
+    you can close your eyes every 10s for 3s
+
+    (the
+    cooldown indicator is in the bottom left corner)
+
+
+    W - jump
+
+    A/D - move
+    left/right
+
+
+    E - chat with NPCs (they don''t move left or right @_@)
+
+
+    Collect
+    all apples!!! (no need to press anything)
+
+
+
+
+    enjoy...'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f3f993c626948834da2e1116386a497a, type: 2}
   m_sharedMaterial: {fileID: 8963682613381604604, guid: f3f993c626948834da2e1116386a497a, type: 2}
@@ -2075,8 +2106,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12
-  m_fontSizeBase: 12
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
