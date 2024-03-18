@@ -106,11 +106,11 @@ public class PlayerLife : MonoBehaviour
         audioSource.PlayOneShot(hurtSound);
         // 7 - Player layer
         // 8 - Skeleton layer
-        Physics2D.IgnoreLayerCollision(7, 8, true);
+        // Physics2D.IgnoreLayerCollision(7, 8, true);
         // 1 - layer of Player_GetHurt in Animator
         GetComponent<Animator>().SetLayerWeight(1, 1);
-        yield return new WaitForSeconds(3);
-        Physics2D.IgnoreLayerCollision(7, 8, false);
+        yield return new WaitForSeconds(1f);
+        // Physics2D.IgnoreLayerCollision(7, 8, false);
         GetComponent<Animator>().SetLayerWeight(1, 0);
     }
 
@@ -130,8 +130,7 @@ public class PlayerLife : MonoBehaviour
 
     private void Die()
     {
-        health = 3;
-        PlayerPrefs.SetInt("health", health);
+        PlayerPrefs.SetInt("health", 3);
         playerBody.bodyType = RigidbodyType2D.Static;
         animator.SetTrigger("death");
         audioSource.PlayOneShot(deathSound);
