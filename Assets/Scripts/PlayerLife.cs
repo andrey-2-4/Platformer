@@ -31,7 +31,7 @@ public class PlayerLife : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        health = PlayerPrefs.GetInt("health", 3);
+        health = SaveSystem.LoadHealth();
         if (health < 1 || health > 3)
         {
             health = 3;
@@ -117,7 +117,7 @@ public class PlayerLife : MonoBehaviour
     private void GetAttacked()
     {
         --health;
-        PlayerPrefs.SetInt("health", health);
+        SaveSystem.SaveHealth(health);
         if (health <= 0)
         {
             Die();
@@ -130,7 +130,7 @@ public class PlayerLife : MonoBehaviour
 
     private void Die()
     {
-        PlayerPrefs.SetInt("health", 3);
+        SaveSystem.SaveHealth(3);
         playerBody.bodyType = RigidbodyType2D.Static;
         animator.SetTrigger("death");
         audioSource.PlayOneShot(deathSound);
