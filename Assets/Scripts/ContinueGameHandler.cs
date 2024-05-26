@@ -11,7 +11,7 @@ public class ContinueGameHandler : MonoBehaviour
 
     public void ContinueGame()
     {
-        var level = PlayerPrefs.GetInt("level", SceneManager.GetActiveScene().buildIndex + 1);
+        var level = SaveSystem.LoadLevel();
         if (level > levelsTotal)
         {
             Debug.Log("game completed");

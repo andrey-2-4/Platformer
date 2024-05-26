@@ -26,7 +26,7 @@ public class Finish : MonoBehaviour
     private void CompleteLevel()
     {
         var level = SceneManager.GetActiveScene().buildIndex + 1;
-        PlayerPrefs.SetInt("level", level);
+        SaveSystem.SaveLevel(level);
         if (level == SceneManager.sceneCountInBuildSettings)
         {
             escapePanel.SetActive(true);

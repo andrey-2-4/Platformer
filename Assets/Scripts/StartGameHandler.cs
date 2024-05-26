@@ -8,7 +8,7 @@ public class StartGameHandler : MonoBehaviour
     public void StartGame()
     {
         var level = SceneManager.GetActiveScene().buildIndex + 1;
-        PlayerPrefs.SetInt("level", level);
+        SaveSystem.SaveLevel(level);
         SceneManager.LoadScene(level);
     }
 }
