@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class PlayerLife : MonoBehaviour
+public class PlayerLifeController : MonoBehaviour
 {
     [SerializeField] private Image blackScreen;
 
@@ -17,7 +17,6 @@ public class PlayerLife : MonoBehaviour
     [SerializeField] private AudioClip hurtSound;
     [SerializeField] private AudioSource audioSource;
 
-    private int health = 3;
     [SerializeField] private Image[] hearts;
     [SerializeField] private Sprite fullHeart;
     [SerializeField] private Sprite emptyHeart;
@@ -28,54 +27,59 @@ public class PlayerLife : MonoBehaviour
     private float lastUse = 0f;
     [SerializeField] private float cooldown = 10f;
 
+    private PlayerLifeModel playerLifeModel;
+    private UILifeModel uiLifeModel;
+
     // Start is called before the first frame update
     void Start()
     {
-        health = SaveSystem.LoadHealth();
-        if (health < 1 || health > 3)
-        {
-            health = 3;
-        }
-        updateHearts();
         playerBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        playerLifeModel = new PlayerLifeModel(playerBody, animator);
+
+        uiLifeModel = new UILifeModel(blackScreen, eyes, eyesClosed, eyesOpened,
+            abilitySound, deathSound, hurtSound, audioSource, hearts, 
+            fullHeart, emptyHeart, cooldown);
+        uiLifeModel.UpdateHearts(playerLifeModel.Health);
     }
 
     // Update is called once per frame
     private void Update()
     {
-        if (Time.time - lastUse > cooldown)
+        if (Time.time - uiLifeModel.lastUse > uiLifeModel.cooldown)
         {
-            eyes.sprite = eyesOpened;
+            uiLifeModel.OpenEyes();
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                lastUse = Time.time;
+                uiLifeModel.lastUse = Time.time;
+                // Возможно только в MonoBehaviour классе
                 StartCoroutine(GetBlind());
             }
         }
         else
         {
-            eyes.sprite = eyesClosed;
+            uiLifeModel.CloseEyes();
         }
     }
 
     private IEnumerator GetBlind()
     {
-        audioSource.PlayOneShot(abilitySound);
+        uiLifeModel.PlayAbilitySound();
         // 7 - Player layer
         // 8 - Skeleton layer
-        Physics2D.IgnoreLayerCollision(7, 8, true);
-        blackScreen.color = new Color(0, 0, 0, 255);
+        playerLifeModel.TurnOffCollision();
+        uiLifeModel.TurnOnBlackScreen();
         yield return new WaitForSeconds(3);
-        Physics2D.IgnoreLayerCollision(7, 8, false);
-        blackScreen.color = new Color(0, 0, 0, 0);
+        playerLifeModel.TurnOnCollision();
+        uiLifeModel.TurnOffBlackScreen();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Trap"))
         {
-            Die();
+            playerLifeModel.Die();
+            uiLifeModel.PlayDeathSound();
         }
     }
 
@@ -85,58 +89,40 @@ public class PlayerLife : MonoBehaviour
         {
             GetAttacked();
             Debug.Log("Skeleton");
-            updateHearts();
-        }
-    }
-
-    private void updateHearts()
-    {
-        foreach (Image heart in hearts)
-        {
-            heart.sprite = emptyHeart;
-        }
-        for (int i = 0; i < health; i++)
-        {
-            hearts[i].sprite = fullHeart;
+            uiLifeModel.UpdateHearts(playerLifeModel.Health);
         }
     }
 
     private IEnumerator GetHurt()
     {
-        audioSource.PlayOneShot(hurtSound);
+        uiLifeModel.PlayHurtSound();
         // 7 - Player layer
         // 8 - Skeleton layer
         // Physics2D.IgnoreLayerCollision(7, 8, true);
         // 1 - layer of Player_GetHurt in Animator
-        GetComponent<Animator>().SetLayerWeight(1, 1);
+        playerLifeModel.TurnOnHurtAnimation();
         yield return new WaitForSeconds(1f);
         // Physics2D.IgnoreLayerCollision(7, 8, false);
-        GetComponent<Animator>().SetLayerWeight(1, 0);
+        playerLifeModel.TurnOffHurtAnimation();
     }
 
     private void GetAttacked()
     {
-        --health;
-        SaveSystem.SaveHealth(health);
-        if (health <= 0)
+        --playerLifeModel.Health;
+        if (playerLifeModel.Health <= 0)
         {
-            Die();
+            playerLifeModel.Die();
+            uiLifeModel.PlayDeathSound();
         }
         else
         {
+            // Возможно только в MonoBehaviour классе
             StartCoroutine(GetHurt());
         }
     }
 
-    private void Die()
-    {
-        SaveSystem.SaveHealth(3);
-        playerBody.bodyType = RigidbodyType2D.Static;
-        animator.SetTrigger("death");
-        audioSource.PlayOneShot(deathSound);
-    }
-
     // Executes in the end of the death animation (which is triggered by "death")
+    // animator.SetTrigger("death");
     private void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
